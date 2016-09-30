@@ -1,0 +1,13 @@
+C:\wamp\www\Infinite\Infinite\obj\Debug\Infinite.csprojResolveAssemblyReference.cache
+C:\wamp\www\Infinite\Infinite\bin\Infinite.dll
+C:\wamp\www\Infinite\Infinite\bin\Infinite.pdb
+C:\wamp\www\Infinite\Infinite\obj\Debug\Infinite.dll
+C:\wamp\www\Infinite\Infinite\obj\Debug\Infinite.pdb
+C:\wamp\www\Infinite\bin\Infinite.dll
+C:\wamp\www\Infinite\bin\Infinite.pdb
+C:\wamp\www\Infinite\obj\Debug\Infinite.csprojResolveAssemblyReference.cache
+C:\wamp\www\Infinite\obj\Debug\Infinite.dll
+C:\wamp\www\Infinite\obj\Debug\Infinite.pdb
+C:\wamp\www\Infinite\bin\MySql.Data.Entity.EF5.dll
+C:\wamp\www\Infinite\bin\MySql.Data.Entity.EF6.dll
+C:\wamp\www\Infinite\bin\MySql.Fabric.Plugin.dll
