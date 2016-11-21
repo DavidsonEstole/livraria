@@ -104,7 +104,7 @@ include "cart-number.php";
         <button type="submit" class="btn btn-default">Procurar</button>
     </form>
     <ul class="nav navbar-nav navbar-right">
-      <li><a href="#">WishList</a></li>
+      <li><a href="wishlist.php">WishList</a></li>
       <li><a href="compra.php">
         <span class="glyphicon glyphicon-shopping-cart" style="color:#000">
             <?php
@@ -204,28 +204,21 @@ if(isset($_GET["livro"])){
   }
 else { ?>
 
+
 <div class="row" style="padding:20px">
-      <div class="col-md-6">
-      	<img src="<?php echo $row['Imagem'] ?>" width="400" height="400" class="img-responsive" alt="Placeholder image">
-      </div>
-          <div class="col-md-2" style="text-align:center">
-            
-              <h4>Livro:</h4><br> <?php echo $row['NOME'] ?>
-          </div>
-          <div class="col-md-2" style="text-align:center">
-            
-              <h4>Autor:</h4><br> <?php echo $row2['NOME'] ?>
-          </div>
-          <div class="col-md-2" style="text-align:center">
-            
-              <h4>Categoria:</h4><br> <?php echo $row['CATEGORIA'] ?>
-          </div>
-          <div class="col-md-2" style="text-align:center; padding-top: 20px">  
-                <h4>Editora:</h4><br> <?php echo $row3['NOME'] ?>
-          </div>
-    <div class="col-md-10" style="text-align:center; padding-top: 100px;"><h4> Sobre o Livro:</h4></div>
- <div class="col-md-10" style="text-align:justify"><?php echo $row['descricao'] ?></div>
-    </div>
+		<table  border="1">
+		<td>
+			<tr><img src="<?php echo $row['Imagem'] ?>" width="200" height="200" class="img-responsive" alt="Placeholder image"	><tr>
+		</td>
+		<td>
+            <tr><h4>Livro:</h4> <?php echo $row['NOME'] ?></tr>
+            <tr><h4>Autor:</h4> <?php echo $row2['NOME'] ?></tr>
+            <tr><h4>Categoria:</h4> <?php echo $row['CATEGORIA'] ?></tr>
+            <tr><h4>Editora:</h4> <?php echo $row3['NOME'] ?></tr>
+		</td>
+			<h4> Sobre o Livro:</h4>
+			<?php echo $row['descricao'] ?>
+		</table>
     <?php
     //Colocando o produto para ser enviado para o carrinho        
     $_SESSION['produto'] = $row['ID'];
@@ -239,7 +232,7 @@ if(isset($_SESSION['ID'])){
             <form class="form-group" action="ajax.php?action=0" method="POST" style="display: inline-block; padding-left: 20px">
                 <input type="submit" class="btn btn-default" name="insert" value="Colocar no carrinho"/>        
             </form>
-            <form action="ajax.php?action=1" method="POST" style="display: inline-block; padding-left: 120px">
+            <form class="form-group" action="ajax.php?action=1" method="POST" style="display: inline-block; padding-left: 120px">
                 <input type="submit" class="btn btn-default" name="select" value="Adicionar a Wishlist"/>
             </form> 
         </div>
@@ -249,7 +242,7 @@ if(isset($_SESSION['ID'])){
 <?php }} ?>
 <?php if(isset($_SESSION['LVL'])){if($_SESSION['LVL'] == 1){
 ?>
-        </div></div>
+</div></div>
     
 <?php }} ?>
     </body>

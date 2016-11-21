@@ -1,4 +1,4 @@
-<?php
+	<?php
 
     include "conection.php";
     if(is_numeric($_GET["id"])){

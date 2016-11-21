@@ -99,7 +99,7 @@ include "cart-number.php";
         <button type="submit" class="btn btn-default">Procurar</button>
     </form>
     <ul class="nav navbar-nav navbar-right">
-      <li><a href="#">WishList</a></li>
+      <li><a href="wishlist.php">WishList</a></li>
       <li><a href="compra.php">
         <span class="glyphicon glyphicon-shopping-cart" style="color:#000">
             <?php
@@ -144,52 +144,54 @@ include "cart-number.php";
     </div>
         
 <?php
-    include 'conection.php';
-    $sever = $_SESSION['ID'];
-    $result = mysqli_query($conn, "SELECT * FROM `carrinho` WHERE `id_cliente` = ".$sever);
-    if($result === FALSE) { 
-      echo "<h3>Carrinho vazio</h3>";
-    }
-    
-else {
-    $i = 0;
-    $total = 0;
-    echo  '<ul class="list-group">
-        <li class="list-group-item"><div class="col-sm-2">Nome</div>
-        <div class="col-sm-2">Autor</div>
-        <div class="col-sm-2">Preço</div>
-        <div class="col-sm-2">Quantidade</div>
-        <div class="col-sm-2">Excluir</div>
-  </li>';
-  // as of php 5.4 mysqli_result implements Traversable, so you can use it with foreach
-  foreach( $result as $row2 ) {
-    $result2 = mysqli_query($conn, "SELECT * FROM `livro` WHERE `id` = ".$row2['ID_LIVRO']);
-    $row = mysqli_fetch_array($result2);
-    $result5 = mysqli_query($conn, "SELECT * FROM `livro_autor` WHERE `ID_LIVRO` = ".$row2['ID_LIVRO']);
-    $row5 = mysqli_fetch_array($result5);
-    $result3 = mysqli_query($conn, "SELECT * FROM `autor` WHERE `id` = ".$row5['ID_AUTOR']);
-    $row3 = mysqli_fetch_array($result3);
-    
-    echo 
-  "<li class='list-group-item'>"
-    . "<div class='col-sm-2'>" .$row['NOME']. "</div>"
-    . "<div class='col-sm-2'> " .$row3['NOME']. "</div>"
-    . "<div class='col-sm-2' id='preco" .$i. "'> R$" .$row['PRECO']. "</div>"
-    . "<div class='col-sm-2'><input type='number' onchange='update(this.value)' id='qtd" .$i. "' value= '" .$row2['qtd']. "' /></div>"
-    . "<div class='col-sm-2'><a href='excluir_carrinho.php?id= + " .$row2['ID']. "'><span style='color: #FD0004' class='glyphicon glyphicon-remove'></span></a></div>"
-                    
-  . "</li>";
-    $i++;
-    
-    $total += $row['PRECO'];
-}
-echo"<p id='totalprod' style='display:none'>" .$i."</p>";
-    echo  '<ul class="list-group">
-        <li class="list-group-item"><div class="col-sm-2">Total</div>
-        <div class="col-sm-2"></div>
-        <div class="col-sm-2" id="total"> R$' .$total. '</div></div>
-  </li>';
+if(isset($_SESSION['ID'])){
+		include 'conection.php';
+		$sever = $_SESSION['ID'];
+		$result = mysqli_query($conn, "SELECT * FROM `carrinho` WHERE `id_cliente` = ".$sever);
+		if($result === FALSE) { 
+		  echo "<h3>Carrinho vazio</h3>";
+		}
+		
+	else {
+		$i = 0;
+		$total = 0;
+		echo  '<ul class="list-group">
+			<li class="list-group-item"><div class="col-sm-2">Nome</div>
+			<div class="col-sm-2">Autor</div>
+			<div class="col-sm-2">Preço</div>
+			<div class="col-sm-2">Quantidade</div>
+			<div class="col-sm-2">Excluir</div>
+	  </li>';
+	  // as of php 5.4 mysqli_result implements Traversable, so you can use it with foreach
+	  foreach( $result as $row2 ) {
+		$result2 = mysqli_query($conn, "SELECT * FROM `livro` WHERE `id` = ".$row2['ID_LIVRO']);
+		$row = mysqli_fetch_array($result2);
+		$result5 = mysqli_query($conn, "SELECT * FROM `livro_autor` WHERE `ID_LIVRO` = ".$row2['ID_LIVRO']);
+		$row5 = mysqli_fetch_array($result5);
+		$result3 = mysqli_query($conn, "SELECT * FROM `autor` WHERE `id` = ".$row5['ID_AUTOR']);
+		$row3 = mysqli_fetch_array($result3);
+		
+		echo 
+	  "<li class='list-group-item'>"
+		. "<div class='col-sm-2'>" .$row['NOME']. "</div>"
+		. "<div class='col-sm-2'> " .$row3['NOME']. "</div>"
+		. "<div class='col-sm-2' id='preco" .$i. "'> R$" .$row['PRECO']. "</div>"
+		. "<div class='col-sm-2'><input type='number' onchange='update(this.value)' id='qtd" .$i. "' value= '" .$row2['qtd']. "' /></div>"
+		. "<div class='col-sm-2'><a href='excluir_carrinho.php?id= + " .$row2['ID']. "'><span style='color: #FD0004' class='glyphicon glyphicon-remove'></span></a></div>"
+						
+	  . "</li>";
+		$i++;
+		
+		$total += $row['PRECO'];
+	}
+	echo"<p id='totalprod' style='display:none'>" .$i."</p>";
+		echo  '<ul class="list-group">
+			<li class="list-group-item"><div class="col-sm-2">Total</div>
+			<div class="col-sm-2"></div>
+			<div class="col-sm-2" id="total"> R$' .$total. '</div></div>
+	  </li>';
 
+	}
 }
 if(isset($_SESSION['ID'])){
 ?>

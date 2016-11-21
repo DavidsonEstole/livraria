@@ -4,6 +4,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 } 
 include "cart-number.php";
 ?>
+
 <html>
     <head>
         <!DOCTYPE html>
@@ -142,59 +143,60 @@ include "cart-number.php";
       
     </div>
         
-        
-        <?php
-include 'conection.php';
-if(isset($_GET["livro"])){
-
-  $name=$_GET['livro'];
-  $result = mysqli_query($conn, "SELECT * FROM `livro` WHERE `id` = '".$name."%'");
-  $row = mysqli_fetch_array($result);
-  $result2 = mysqli_query($conn, "SELECT ID_AUTOR FROM livro_autor WHERE ID_LIVRO =" .$row["ID"]);
-  $row2 = mysqli_fetch_array($result2);
-  $result2 = mysqli_query($conn, "SELECT NOME FROM autor WHERE id=" .$row2["ID_AUTOR"]);
-        $row2 = mysqli_fetch_array($result2);
-}
-  if($result === FALSE) { 
-      echo "<h3> Não há livros relacionados com essa pesquisa</h3>";
-  }
-else {
-  // as of php 5.4 mysqli_result implements Traversable, so you can use it with foreach
-      echo 
-"<div class='col-sm-4 col-lg-4 col-md-4'>
-                      <div class='thumbnail'>
-                          <img src=" .$row['Imagem']. " class='center-block2'>
-                          <div class='caption'>
-                          <h4 class='pull-right'>Preço: R$" .$row['PRECO']. "</h4>
-                          <h4><a href='pagina_produto.php?id= + " .$row['ID']. "'>Nome: " .$row['NOME']. "</a>
-                          </h4>
-                          <h5><a href='#'>AUTOR: " .$row2['NOME']. "</a></h5> 
-                          <p> Estilo: " .$row['CATEGORIA']. "</p></div>
-                      </div>
-      </div>";
-  }
-?>
 <?php
-    //Colocando o produto para ser enviado para o carrinho        
-    $_SESSION['produto'] = $row['ID'];
-            
-
+    include 'conection.php';
 if(isset($_SESSION['ID'])){
+		$sever = $_SESSION['ID'];
+		$result = mysqli_query($conn, "SELECT * FROM `wishlist` WHERE `id_cliente` = ".$sever);
+		if($result === FALSE) { 
+		  echo "<h3>WISHLIST</h3>";
+		}
+		
+	else {
+		$i = 0;
+		echo  '<ul class="list-group">
+			<li class="list-group-item">
+			<div class="col-sm-2"></div>
+			<div class="col-sm-3">Nome</div>
+			<div class="col-sm-2">Autor</div>
+			<div class="col-sm-2">Preço</div>
+			<div class="col-sm-2">Pagina Produto</div>
+			<div class="col-sm-1">Excluir</div>
+	  </li>';
+	  // as of php 5.4 mysqli_result implements Traversable, so you can use it with foreach
+	  foreach( $result as $row2 ) {
+		$result2 = mysqli_query($conn, "SELECT * FROM `livro` WHERE `id` = ".$row2['ID_LIVRO']);
+		$row = mysqli_fetch_array($result2);
+		$result5 = mysqli_query($conn, "SELECT * FROM `livro_autor` WHERE `ID_LIVRO` = ".$row2['ID_LIVRO']);
+		$row5 = mysqli_fetch_array($result5);
+		$result3 = mysqli_query($conn, "SELECT * FROM `autor` WHERE `id` = ".$row5['ID_AUTOR']);
+		$row3 = mysqli_fetch_array($result3);
+		
+		echo 
+	  "<li class='list-group-item'>"
+		. "<div><img src= ".$row['Imagem']." style='width:50px; height=50px;'></div>"
+		. "<div class='col-sm-2'></div>"
+		. "<div class='col-sm-3'>" .$row['NOME']. "</div>"
+		. "<div class='col-sm-2'> " .$row3['NOME']. "</div>"
+		. "<div class='col-sm-2' id='preco" .$i. "'> R$" .$row['PRECO']. "</div>"
+		. "<div class='col-sm-2'><a href='teste_produto.php?livro= + " .$row2['ID_LIVRO']. "'>Visite a Pagina</a></div>"
+		. "<div class='col-sm-1'><a href='excluir_wishlist.php?id= + " .$row2['ID']. "'><span style='color: #FD0004' class='glyphicon glyphicon-remove'></span></a></div>"
+	  . "</li>";
+		$i++;
+		
+	}
+	echo"<p id='totalprod' style='display:none'>" .$i."</p>";
+		echo  '<ul class="list-group">
+	  </li>';
 
-    if($row['quantidade'] == 0){
-        echo '<h4>Produto fora de estoque</h4>';
-    }else{
+	}
+}
+if(isset($_SESSION['ID'])){
 ?>
-        <form action="ajax.php?action=0" method="POST">
-            <input type="submit" class="button" name="insert" value="Colocar no carrinho"/>        
-        </form>
-        <form action="ajax.php?action=1" method="POST">
-        <input type="submit" class="button" name="select" value="Adicionar a Wishlist"/>
-        </form>   
-<?php }}  else { ?>
+        
+<?php }  else { ?>
         <h4>É preciso logar para proceder com a compra ou colocar na lista de desejo</h4> 
 
 <?php } ?>
     </body>
-</html>
-        
+        </html>

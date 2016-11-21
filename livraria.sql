@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 26-Set-2016 às 21:48
--- Versão do servidor: 5.6.17
+-- Generation Time: Nov 21, 2016 at 07:09 PM
+-- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -23,7 +23,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `autor`
+-- Table structure for table `autor`
 --
 
 CREATE TABLE IF NOT EXISTS `autor` (
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `autor` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=89 ;
 
 --
--- Extraindo dados da tabela `autor`
+-- Dumping data for table `autor`
 --
 
 INSERT INTO `autor` (`ID`, `NOME`) VALUES
@@ -48,7 +48,7 @@ INSERT INTO `autor` (`ID`, `NOME`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `carrinho`
+-- Table structure for table `carrinho`
 --
 
 CREATE TABLE IF NOT EXISTS `carrinho` (
@@ -57,20 +57,23 @@ CREATE TABLE IF NOT EXISTS `carrinho` (
   `ID_LIVRO` int(11) NOT NULL,
   `qtd` int(6) NOT NULL DEFAULT '1',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=27 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=37 ;
 
 --
--- Extraindo dados da tabela `carrinho`
+-- Dumping data for table `carrinho`
 --
 
 INSERT INTO `carrinho` (`ID`, `ID_CLIENTE`, `ID_LIVRO`, `qtd`) VALUES
 (20, 25, 87, 1),
-(26, 28, 93, 1);
+(31, 28, 95, 1),
+(33, 28, 94, 1),
+(34, 28, 93, 1),
+(36, 28, 89, 1);
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `carrousel`
+-- Table structure for table `carrousel`
 --
 
 CREATE TABLE IF NOT EXISTS `carrousel` (
@@ -81,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `carrousel` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Extraindo dados da tabela `carrousel`
+-- Dumping data for table `carrousel`
 --
 
 INSERT INTO `carrousel` (`ID_LIVRO1`, `ID_LIVRO2`, `ID_LIVRO3`, `ID_LIVRO4`) VALUES
@@ -90,7 +93,7 @@ INSERT INTO `carrousel` (`ID_LIVRO1`, `ID_LIVRO2`, `ID_LIVRO3`, `ID_LIVRO4`) VAL
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `contato`
+-- Table structure for table `contato`
 --
 
 CREATE TABLE IF NOT EXISTS `contato` (
@@ -102,22 +105,22 @@ CREATE TABLE IF NOT EXISTS `contato` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=76 ;
 
 --
--- Extraindo dados da tabela `contato`
+-- Dumping data for table `contato`
 --
 
 INSERT INTO `contato` (`ID`, `EMAIL`, `TELEFONE`, `TELEFONE2`) VALUES
-(67, 'adm@adm.com', 2147483647, 0),
-(69, 'editora@sextante.com', 2147483647, 2147483647),
-(70, 'editora@abril.com', 2147483647, 2147483647),
-(71, 'je_jmgbrasil@hotmail.com', 2147483647, 0),
-(72, 'je_jmgbrasil@hotmail.com', 2147483647, 0),
-(74, 'je_jmgbrasil@hotmail.com', 0, 0),
-(75, 'je_jmgbrasil@hotmail.com', 2147483647, 2147483647);
+(67, 'adm@adm.com', '2147483647', '0'),
+(69, 'editora@sextante.com', '2147483647', '2147483647'),
+(70, 'editora@abril.com', '2147483647', '2147483647'),
+(71, 'je_jmgbrasil@hotmail.com', '2147483647', '0'),
+(72, 'je_jmgbrasil@hotmail.com', '2147483647', '0'),
+(74, 'je_jmgbrasil@hotmail.com', '0', '0'),
+(75, 'je_jmgbrasil@hotmail.com', '2147483647', '2147483647');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `editora`
+-- Table structure for table `editora`
 --
 
 CREATE TABLE IF NOT EXISTS `editora` (
@@ -131,7 +134,7 @@ CREATE TABLE IF NOT EXISTS `editora` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 --
--- Extraindo dados da tabela `editora`
+-- Dumping data for table `editora`
 --
 
 INSERT INTO `editora` (`ID`, `NOME`, `ID_ENDERECO`, `ID_CONTATO`) VALUES
@@ -142,7 +145,7 @@ INSERT INTO `editora` (`ID`, `NOME`, `ID_ENDERECO`, `ID_CONTATO`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `endereco`
+-- Table structure for table `endereco`
 --
 
 CREATE TABLE IF NOT EXISTS `endereco` (
@@ -157,7 +160,7 @@ CREATE TABLE IF NOT EXISTS `endereco` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=62 ;
 
 --
--- Extraindo dados da tabela `endereco`
+-- Dumping data for table `endereco`
 --
 
 INSERT INTO `endereco` (`ID`, `RUA`, `BAIRRO`, `CIDADE`, `ESTADO`, `CEP`, `numero`) VALUES
@@ -171,7 +174,7 @@ INSERT INTO `endereco` (`ID`, `RUA`, `BAIRRO`, `CIDADE`, `ESTADO`, `CEP`, `numer
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `livro`
+-- Table structure for table `livro`
 --
 
 CREATE TABLE IF NOT EXISTS `livro` (
@@ -189,7 +192,7 @@ CREATE TABLE IF NOT EXISTS `livro` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=96 ;
 
 --
--- Extraindo dados da tabela `livro`
+-- Dumping data for table `livro`
 --
 
 INSERT INTO `livro` (`ID`, `NOME`, `CATEGORIA`, `PRECO`, `ID_EDITORA`, `quantidade`, `Imagem`, `descricao`) VALUES
@@ -201,7 +204,7 @@ INSERT INTO `livro` (`ID`, `NOME`, `CATEGORIA`, `PRECO`, `ID_EDITORA`, `quantida
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `livro_autor`
+-- Table structure for table `livro_autor`
 --
 
 CREATE TABLE IF NOT EXISTS `livro_autor` (
@@ -214,7 +217,7 @@ CREATE TABLE IF NOT EXISTS `livro_autor` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=82 ;
 
 --
--- Extraindo dados da tabela `livro_autor`
+-- Dumping data for table `livro_autor`
 --
 
 INSERT INTO `livro_autor` (`ID`, `ID_AUTOR`, `ID_LIVRO`) VALUES
@@ -229,7 +232,7 @@ INSERT INTO `livro_autor` (`ID`, `ID_AUTOR`, `ID_LIVRO`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `usuario`
+-- Table structure for table `usuario`
 --
 
 CREATE TABLE IF NOT EXISTS `usuario` (
@@ -249,7 +252,7 @@ CREATE TABLE IF NOT EXISTS `usuario` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=33 ;
 
 --
--- Extraindo dados da tabela `usuario`
+-- Dumping data for table `usuario`
 --
 
 INSERT INTO `usuario` (`ID`, `NOME`, `SEXO`, `SENHA`, `SOBRENOME`, `ID_ENDERECO`, `ID_CONTATO`, `CPF`, `RG`, `LVL`) VALUES
@@ -261,7 +264,7 @@ INSERT INTO `usuario` (`ID`, `NOME`, `SEXO`, `SENHA`, `SOBRENOME`, `ID_ENDERECO`
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `venda`
+-- Table structure for table `venda`
 --
 
 CREATE TABLE IF NOT EXISTS `venda` (
@@ -273,31 +276,42 @@ CREATE TABLE IF NOT EXISTS `venda` (
   PRIMARY KEY (`ID`),
   KEY `FK_USUARIO` (`ID_USUARIO`),
   KEY `FK_LIVRO2` (`ID_LIVRO`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
 
 --
--- Extraindo dados da tabela `venda`
+-- Table structure for table `wishlist`
 --
 
-INSERT INTO `venda` (`ID`, `ID_USUARIO`, `ID_LIVRO`, `VALOR`, `DATA`) VALUES
-(17, 29, 94, '13.00', '2015-11-23 03:19:24'),
-(18, 29, 89, '30.00', '2015-11-23 03:19:24'),
-(19, 29, 93, '16.00', '2015-11-23 07:45:19'),
-(20, 29, 94, '13.00', '2015-11-23 07:45:19'),
-(21, 29, 93, '16.00', '2015-11-23 07:45:19');
+CREATE TABLE IF NOT EXISTS `wishlist` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `ID_CLIENTE` int(11) NOT NULL,
+  `ID_LIVRO` int(11) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=63 ;
+
+--
+-- Dumping data for table `wishlist`
+--
+
+INSERT INTO `wishlist` (`ID`, `ID_CLIENTE`, `ID_LIVRO`) VALUES
+(36, 28, 93),
+(61, 28, 94),
+(62, 28, 89);
 
 --
 -- Constraints for dumped tables
 --
 
 --
--- Limitadores para a tabela `livro`
+-- Constraints for table `livro`
 --
 ALTER TABLE `livro`
   ADD CONSTRAINT `FK_EDITORA` FOREIGN KEY (`ID_EDITORA`) REFERENCES `editora` (`ID`);
 
 --
--- Limitadores para a tabela `livro_autor`
+-- Constraints for table `livro_autor`
 --
 ALTER TABLE `livro_autor`
   ADD CONSTRAINT `FK_AUTOR` FOREIGN KEY (`ID_AUTOR`) REFERENCES `autor` (`ID`);
