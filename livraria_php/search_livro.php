@@ -79,27 +79,43 @@ include "cart-number.php";
 
   <div class="collapse navbar-collapse navbar-ex1-collapse" >
     <ul class="nav navbar-nav">
-        
-        <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Categorias<span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#">Ação</a></li>
-            <li><a href="#">Aventura</a></li>
-            <li><a href="#">Humor</a></li>
-            <li><a href="#">Romance</a></li>
-          </ul>
-      </li>
           <li><a href="#">Outros produtos</a></li>
     </ul>
+	
     <form class="navbar-form navbar-left" role="search" action="search_livro.php" method="GET">
         <div class="form-group has-feedback has-feedback-left">
         <input type="text" class="form-control" placeholder="Procure aqui" name="livro" size ="40">
         <a href="#"><i class="form-control-feedback glyphicon glyphicon-search"></i></a>
         </div>
         <button type="submit" class="btn btn-default">Procurar</button>
+		<a href="#" class="btn btn-default" id= "busca">Avancado</span></a>
+		<script>
+		$(document).ready(function(){
+			$("#busca").click(function(){
+				$("#opcoes").toggle();
+			});
+		});
+		</script>
+		<div id = "opcoes" style = "display:none"> 
+		<ul class="navbar-form navbar-left">
+		<table>
+				<tr>
+				<td><input type="radio" name="escolha" value="livro">Nome do Livro</td>
+				<td><input type="radio" name="escolha" value="Genero">Genero</td>
+				</tr><tr>
+				<td><input type="radio" name="escolha" value="Autor">Autor</td>
+				<td><input type="radio" name="escolha" value="Editora">Editora</td>
+				</tr>
+		</table>
+		</ul>
+		</div>
+		</ul>
+	
     </form>
+	
     <ul class="nav navbar-nav navbar-right">
-      <li><a href="#">WishList</a></li>
-      <li><a href="#">
+      <li><a href="wishlist.php">WishList</a></li>
+      <li><a href="compra.php">
         <span class="glyphicon glyphicon-shopping-cart" style="color:#FD0004"></span>
       </a></li>
             <li><a href="lista_compras.php">Histórico de Compras</a></li>
@@ -136,39 +152,167 @@ include "cart-number.php";
       
     </div>
         <div class="row" style="padding-left: 20px">
-      <h1><center>Resultados por "<?php echo $_GET['livro']?>"</center></h1>
+      <h1><center>Busca por: 
+	 <?php
+	if(isset($_GET["escolha"])){
+	$op=$_GET['escolha'];
+	}
+	else{
+	$op = 'livro';
+	}  
+	echo $op;
+	?></center></h1>
 <?php
 include 'conection.php';
-if(isset($_GET["livro"])){
 
-  $name=$_GET['livro'];
-  $result = mysqli_query($conn, "SELECT * FROM `livro` WHERE `NOME` LIKE '".$name."%'");
 
+
+	if(isset($_GET["escolha"])){
+		
+	$op=$_GET['escolha'];
+	}
+	else{
+		$op = 'livro';
+	}
+	
+	if($op == 'livro'){
+	if(isset($_GET["livro"])){
+
+	  $name=$_GET['livro'];
+	  $result = mysqli_query($conn, "SELECT * FROM `livro` WHERE `NOME` LIKE '%".$name."%'");
+
+	}
+	if($result == FALSE) { 
+		  echo "<h3> Não há livros relacionados com essa pesquisa</h3>";
+	  }
+	else {
+	  // as of php 5.4 mysqli_result implements Traversable, so you can use it with foreach
+	  foreach( $result as $row ) {
+			$result2 = mysqli_query($conn, "SELECT ID_AUTOR FROM livro_autor WHERE ID_LIVRO =" .$row["ID"]);
+			$row2 = mysqli_fetch_array($result2);
+			
+			$result2 = mysqli_query($conn, "SELECT NOME FROM autor WHERE id=" .$row2["ID_AUTOR"]);
+			$row2 = mysqli_fetch_array($result2);
+		  echo 
+			"<a class='fill-div' href='teste_produto.php?livro=" .$row['ID']. "'><div class='col-sm-4 col-lg-4 col-md-4' style='width:400px;'>
+							<div class='thumbnail link'>
+								<img src=" .$row['Imagem']. " style='height:128px;' class='center-block2'>
+								<div class='caption'>
+								<h4 class='pull-right'>R$" .$row['PRECO']. "</h4>
+								<h4>" .$row['NOME']. "</h4>
+								<h5>Autor: " .$row2['NOME']. "</h5>             
+								<p> Estilo: " .$row['CATEGORIA']. "</p></div>
+							</div>
+			</div></a>";
+	  }
+
+	}
 }
-if($result === FALSE) { 
-      echo "<h3> Não há livros relacionados com essa pesquisa</h3>";
-  }
-else {
-  // as of php 5.4 mysqli_result implements Traversable, so you can use it with foreach
-  foreach( $result as $row ) {
-              $result2 = mysqli_query($conn, "SELECT ID_AUTOR FROM livro_autor WHERE ID_LIVRO =" .$row["ID"]);
-        $row2 = mysqli_fetch_array($result2);
-        
-        $result2 = mysqli_query($conn, "SELECT NOME FROM autor WHERE id=" .$row2["ID_AUTOR"]);
-        $row2 = mysqli_fetch_array($result2);
-      echo 
-"<a class='fill-div' href='teste_produto.php?livro=" .$row['ID']. "'><div class='col-sm-4 col-lg-4 col-md-4' style='width:400px;'>
-                        <div class='thumbnail link'>
-                            <img src=" .$row['Imagem']. " style='height:128px;' class='center-block2'>
-                            <div class='caption'>
-                            <h4 class='pull-right'>R$" .$row['PRECO']. "</h4>
-                            <h4>Nome: " .$row['NOME']. "</h4>
-                            <h5>Autor: " .$row2['NOME']. "</h5>             
-                            <p> Estilo: " .$row['CATEGORIA']. "</p></div>
-                        </div>
-        </div></a>";
-  }
-}?>
+else if($op == 'Genero'){
+	if(isset($_GET["livro"])){
+
+	  $name=$_GET['livro'];
+	  $result = mysqli_query($conn, "SELECT * FROM `livro` WHERE `CATEGORIA` LIKE '%".$name."%'");
+
+	}
+	if($result == FALSE) { 
+		  echo "<h3> Não há livros relacionados com essa pesquisa</h3>";
+	  }
+	else {
+	  // as of php 5.4 mysqli_result implements Traversable, so you can use it with foreach
+	  foreach( $result as $row ) {
+			$result2 = mysqli_query($conn, "SELECT ID_AUTOR FROM livro_autor WHERE ID_LIVRO =" .$row["ID"]);
+			$row2 = mysqli_fetch_array($result2);
+			
+			$result2 = mysqli_query($conn, "SELECT NOME FROM autor WHERE id=" .$row2["ID_AUTOR"]);
+			$row2 = mysqli_fetch_array($result2);
+		  echo 
+			"<a class='fill-div' href='teste_produto.php?livro=" .$row['ID']. "'><div class='col-sm-4 col-lg-4 col-md-4' style='width:400px;'>
+							<div class='thumbnail link'>
+								<img src=" .$row['Imagem']. " style='height:128px;' class='center-block2'>
+								<div class='caption'>
+								<h4 class='pull-right'>R$" .$row['PRECO']. "</h4>
+								<h4>" .$row['NOME']. "</h4>
+								<h5>Autor: " .$row2['NOME']. "</h5>             
+								<p> Estilo: " .$row['CATEGORIA']. "</p></div>
+							</div>
+			</div></a>";
+	  }
+
+	}
+}
+else if($op == 'Autor'){
+	if(isset($_GET["livro"])){
+
+	$name=$_GET['livro'];
+	$result = mysqli_query($conn, "SELECT ID FROM autor WHERE `NOME` LIKE '%".$name."%'");
+
+	foreach( $result as $row5 ){
+		$result3 = mysqli_query($conn, "SELECT ID_LIVRO FROM livro_autor WHERE `ID_AUTOR` LIKE '%".$row5["ID"]."%'");
+	}
+	
+
+	}
+	if($result3 == FALSE) { 
+		  echo "<h3> Não há livros relacionados com essa pesquisa</h3>";
+	  }
+	else {
+	  // as of php 5.4 mysqli_result implements Traversable, so you can use it with foreach
+	  foreach( $result3 as $row ) {
+			$result2 = mysqli_query($conn, "SELECT ID_AUTOR FROM livro_autor WHERE ID_LIVRO =" .$row["ID_LIVRO"]);
+			$row2 = mysqli_fetch_array($result2);
+			
+			$result2 = mysqli_query($conn, "SELECT NOME FROM autor WHERE id=" .$row2["ID_AUTOR"]);
+			$row2 = mysqli_fetch_array($result2);
+		  echo 
+			"<a class='fill-div' href='teste_produto.php?livro=" .$row['ID']. "'><div class='col-sm-4 col-lg-4 col-md-4' style='width:400px;'>
+							<div class='thumbnail link'>
+								<img src=" .$row['Imagem']. " style='height:128px;' class='center-block2'>
+								<div class='caption'>
+								<h4 class='pull-right'>R$" .$row['PRECO']. "</h4>
+								<h4>" .$row['NOME']. "</h4>
+								<h5>Autor: " .$row2['NOME']. "</h5>             
+								<p> Estilo: " .$row['CATEGORIA']. "</p></div>
+							</div>
+			</div></a>";
+	  }
+
+	}
+}
+else if($op == 'Editora'){
+	if(isset($_GET["livro"])){
+
+	  $name=$_GET['livro'];
+	  $result = mysqli_query($conn, "SELECT * FROM `livro` WHERE `CATEGORIA` LIKE '%".$name."%'");
+
+	}
+	if($result == FALSE) { 
+		  echo "<h3> Não há livros relacionados com essa pesquisa</h3>";
+	  }
+	else {
+	  // as of php 5.4 mysqli_result implements Traversable, so you can use it with foreach
+	  foreach( $result as $row ) {
+			$result2 = mysqli_query($conn, "SELECT ID_AUTOR FROM livro_autor WHERE ID_LIVRO =" .$row["ID"]);
+			$row2 = mysqli_fetch_array($result2);
+			
+			$result2 = mysqli_query($conn, "SELECT NOME FROM autor WHERE id=" .$row2["ID_AUTOR"]);
+			$row2 = mysqli_fetch_array($result2);
+		  echo 
+			"<a class='fill-div' href='teste_produto.php?livro=" .$row['ID']. "'><div class='col-sm-4 col-lg-4 col-md-4' style='width:400px;'>
+							<div class='thumbnail link'>
+								<img src=" .$row['Imagem']. " style='height:128px;' class='center-block2'>
+								<div class='caption'>
+								<h4 class='pull-right'>R$" .$row['PRECO']. "</h4>
+								<h4>" .$row['NOME']. "</h4>
+								<h5>Autor: " .$row2['NOME']. "</h5>             
+								<p> Estilo: " .$row['CATEGORIA']. "</p></div>
+							</div>
+			</div></a>";
+	  }
+
+	}
+}
+?>
       
 </div>
 </body>

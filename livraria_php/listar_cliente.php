@@ -137,7 +137,7 @@ include "cart-number.php";
         <button type="submit" class="btn btn-default">Procurar</button>
     </form>
     <ul class="nav navbar-nav navbar-right">
-      <li><a href="#">WishList</a></li>
+      <li><a href="wishlist.php">WishList</a></li>
       <li><a href="compra.php">
         <span class="glyphicon glyphicon-shopping-cart" style="color:#000">
             <?php
